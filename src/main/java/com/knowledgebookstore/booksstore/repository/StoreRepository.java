@@ -1,6 +1,7 @@
 package com.knowledgebookstore.booksstore.repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.knowledgebookstore.booksstore.pojo.Book;
 
 @Repository
 public class StoreRepository {
-    private List<Book> list = Arrays.asList(
+    private List<Book> list = new ArrayList<>(Arrays.asList(
         new Book(1, "To Kill a Mockingbird", "Harper Lee", new BigDecimal(10.99), 4.5f),
         new Book(2, "1984", "George Orwell", new BigDecimal(9.99), 4.3f),
         new Book(3, "Pride and Prejudice", "Jane Austen", new BigDecimal(8.99), 4.7f),
@@ -63,7 +64,9 @@ public class StoreRepository {
         new Book(50, "The Hunger Games", "Suzanne Collins", new BigDecimal(9.99), 4.3f),
         new Book(51, "Norwegian Wood", "Haruki Murakami", new BigDecimal(11.99), 4.5f),
         new Book(52, "The Pillars of the Earth", "Ken Follett", new BigDecimal(10.99), 4.6f)
-    );
+    ));
+    
+    
 
     public List<Book> getBooks(){
         return list;
