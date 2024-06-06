@@ -1,9 +1,8 @@
 package com.knowledgebookstore.booksstore.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class NoBookFoundException extends Exception{
-    
+public class NoBookFoundException extends RuntimeException{
+    public NoBookFoundException(String id){
+        super("This id '"+id+"' does not exist in our records");
+    }
 }

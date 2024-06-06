@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.knowledgebookstore.booksstore.exception.NoBookFoundException;
 import com.knowledgebookstore.booksstore.pojo.Book;
 import com.knowledgebookstore.booksstore.service.StoreService;
 
@@ -25,22 +24,12 @@ public class StoreController {
 
     @GetMapping("/book/{id}")
     public ResponseEntity<Book> getBook(@PathVariable int id){
-        try{
-            return new ResponseEntity<>(service.getBook(id), HttpStatus.OK);
-        }catch(NoBookFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        
+        return new ResponseEntity<>(service.getBook(id), HttpStatus.OK);
     }
 
     @GetMapping("/bookbyname/{bookname}")
     public ResponseEntity<Book> getBook(@PathVariable String bookname){
-        try{
-            return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
-        }catch(NoBookFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        
+        return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
     }
 
     @GetMapping("/book/allbooks")
@@ -56,21 +45,14 @@ public class StoreController {
 
     @PutMapping("/book/{bookname}")
     public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable String bookname){
-        try{
-            service.updateBook(bookname, book);
-            return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
-        }catch(NoBookFoundException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        service.updateBook(bookname, book);
+        return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
     }
 
     @DeleteMapping("/book/{bookname}")
     public ResponseEntity<HttpStatus> deleteBook(@PathVariable String bookname){
-        try{
-            service.deleteBook(bookname);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(NoBookFoundException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+        service.deleteBook(bookname);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

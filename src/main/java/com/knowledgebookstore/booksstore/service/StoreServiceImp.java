@@ -22,7 +22,7 @@ public class StoreServiceImp implements StoreService{
     }
 
     @Override
-    public int getIndexByBookName(String bookName) throws NoBookFoundException{
+    public int getIndexByBookName(String bookName){
         // TODO Auto-generated method stub
         List<Book> list = repository.getBooks();
         int len = list.size();
@@ -34,14 +34,14 @@ public class StoreServiceImp implements StoreService{
         }
 
         if(ind==-1){
-            throw new NoBookFoundException();
+            throw new NoBookFoundException(bookName);
         }
 
         return ind;
     }
 
     @Override
-    public int getIndexById(int id) throws NoBookFoundException{
+    public int getIndexById(int id){
         // TODO Auto-generated method stub
         List<Book> list = repository.getBooks();
         int ind = -1;
@@ -52,19 +52,19 @@ public class StoreServiceImp implements StoreService{
         }
 
         if(ind==-1){
-            throw new NoBookFoundException();
+            throw new NoBookFoundException(String.valueOf(id));
         }
         return ind;
     }
 
     @Override
-    public Book getBook(int id) throws NoBookFoundException{
+    public Book getBook(int id){
         // TODO Auto-generated method stub
         return repository.getBook(getIndexById(id));
     }
 
     @Override
-    public Book getBook(String bookName) throws NoBookFoundException{
+    public Book getBook(String bookName){
         // TODO Auto-generated method stub
         return repository.getBook(getIndexByBookName(bookName));
     }
@@ -76,14 +76,14 @@ public class StoreServiceImp implements StoreService{
     }
 
     @Override
-    public void updateBook(String bookName, Book book) throws NoBookFoundException{
+    public void updateBook(String bookName, Book book){
         // TODO Auto-generated method stub
         int ind = getIndexByBookName(bookName);
         repository.setBook(ind, book);
     }
 
     @Override
-    public void deleteBook(String bookName) throws NoBookFoundException{
+    public void deleteBook(String bookName){
         // TODO Auto-generated method stub
         
         repository.deleteBook(getBook(bookName));
