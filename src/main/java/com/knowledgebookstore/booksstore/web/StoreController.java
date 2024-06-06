@@ -16,18 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.knowledgebookstore.booksstore.pojo.Book;
 import com.knowledgebookstore.booksstore.service.StoreService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class StoreController {
     
     @Autowired
     private StoreService service;
 
-    @GetMapping("/book/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable int id){
-        return new ResponseEntity<>(service.getBook(id), HttpStatus.OK);
-    }
 
-    @GetMapping("/bookbyname/{bookname}")
+    @GetMapping("/book/{bookname}")
     public ResponseEntity<Book> getBook(@PathVariable String bookname){
         return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
     }
@@ -38,13 +36,13 @@ public class StoreController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity<HttpStatus> addBook(@RequestBody Book book){
+    public ResponseEntity<HttpStatus> addBook(@Valid @RequestBody Book book){
         service.addBook(book);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/book/{bookname}")
-    public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable String bookname){
+    public ResponseEntity<Book> updateBook(@Valid @RequestBody Book book, @PathVariable String bookname){
         service.updateBook(bookname, book);
         return new ResponseEntity<>(service.getBook(bookname), HttpStatus.OK);
     }

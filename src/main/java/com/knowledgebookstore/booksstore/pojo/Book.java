@@ -3,10 +3,19 @@ package com.knowledgebookstore.booksstore.pojo;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.knowledgebookstore.booksstore.customvalidators.CheckIfBookExists;
+
+import jakarta.validation.constraints.NotBlank;
+
 public class Book {
 
+
+    
     private int id;
+    @CheckIfBookExists(message = "Book already exists")
+    @NotBlank(message = "Book name can't be null")
     private String bookName;
+    @NotBlank(message = "Author can't be blank")
     private String authorName;
     private BigDecimal price;
     private Float rating;

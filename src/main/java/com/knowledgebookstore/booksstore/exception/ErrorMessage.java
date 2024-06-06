@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ErrorMessage {
     
-    private List<String> message;
+    private List<String> error;
     private LocalDateTime timeStamp;
 
     public ErrorMessage(List<String> message){
         this.timeStamp = LocalDateTime.now();
-        this.message = message;
+        this.error = message;
     }
 
     public void setTimeStamp(){
@@ -24,12 +24,12 @@ public class ErrorMessage {
         return this.timeStamp;
     }
 
-    public List<String> getMessage() {
-        return this.message;
+    public List<String> getError() {
+        return this.error;
     }
 
-    public void setMessage(List<String> message) {
-        this.message = message;
+    public void setError(List<String> message) {
+        this.error = message;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.knowledgebookstore.booksstore.exception;
 
 public class UnableToUpdateResourceException extends RuntimeException {
-    public UnableToUpdateResourceException(){
-        super("Unable to update resource");
+    public UnableToUpdateResourceException(String book){
+        super("Neither "+book+" is not found nor unable to update");
     }
 }

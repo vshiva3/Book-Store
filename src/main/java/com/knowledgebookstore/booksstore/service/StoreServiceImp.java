@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.knowledgebookstore.booksstore.exception.NoBookFoundException;
+import com.knowledgebookstore.booksstore.exception.UnableToCreateResourceException;
+import com.knowledgebookstore.booksstore.exception.UnableToDeleteResourceException;
+import com.knowledgebookstore.booksstore.exception.UnableToUpdateResourceException;
 import com.knowledgebookstore.booksstore.pojo.Book;
 import com.knowledgebookstore.booksstore.repository.StoreRepository;
 
@@ -31,47 +34,43 @@ public class StoreServiceImp implements StoreService{
             if(list.get(i).getBookName().toLowerCase().equals(bookName.toLowerCase())){
                 ind = i;
             }
-        }
-
-        if(ind==-1){
-            throw new NoBookFoundException(bookName);
-        }
+        }   
 
         return ind;
-    }
-
-    @Override
-    public int getIndexById(int id){
-        // TODO Auto-generated method stub
-        List<Book> list = repository.getBooks();
-        int ind = -1;
-        for(int i=0;i<list.size();i++){
-            if(list.get(i).getId()==id){
-                ind = i;
-            }
-        }
-
-        if(ind==-1){
-            throw new NoBookFoundException(String.valueOf(id));
-        }
-        return ind;
-    }
-
-    @Override
-    public Book getBook(int id){
-        // TODO Auto-generated method stub
-        return repository.getBook(getIndexById(id));
     }
 
     @Override
     public Book getBook(String bookName){
         // TODO Auto-generated method stub
-        return repository.getBook(getIndexByBookName(bookName));
+        int ind = getIndexByBookName(bookName);
+        if(ind==-1){
+            throw new NoBookFoundException(bookName);
+        }
+        return repository.getBook(ind);
+    }
+
+    @Override
+    public boolean findIfAvailable(int id){
+        List<Book> list = repository.getBooks();
+        int siz = list.size();
+
+        for(int i=0;i<siz;i++){
+            if(list.get(i).getId()==id){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public void addBook(Book book) {
         // TODO Auto-generated method stub
+        boolean val = findIfAvailable(book.getId());
+        if(val == true){
+            throw new UnableToCreateResourceException(book.getBookName(), book.getId());
+        }
+
         repository.addBook(book);
     }
 
@@ -79,13 +78,19 @@ public class StoreServiceImp implements StoreService{
     public void updateBook(String bookName, Book book){
         // TODO Auto-generated method stub
         int ind = getIndexByBookName(bookName);
+        if(ind==-1){
+            throw new UnableToUpdateResourceException(bookName);
+        }
         repository.setBook(ind, book);
     }
 
     @Override
     public void deleteBook(String bookName){
         // TODO Auto-generated method stub
-        
+        int ind = getIndexByBookName(bookName);
+        if(ind==-1){
+            throw new UnableToDeleteResourceException(bookName);
+        }
         repository.deleteBook(getBook(bookName));
     }
 
