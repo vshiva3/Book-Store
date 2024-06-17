@@ -21,13 +21,13 @@ public class StoreServiceImp implements StoreService{
     @Override
     public List<Book> getBooks() {
         // TODO Auto-generated method stub
-        return repository.getBooks();
+        return (List<Book>)repository.findAll();
     }
 
     @Override
     public int getIndexByBookName(String bookName){
         // TODO Auto-generated method stub
-        List<Book> list = repository.getBooks();
+        List<Book> list = getBooks();
         int len = list.size();
         int ind = -1;
         for(int i=0;i<len;i++){
@@ -46,12 +46,12 @@ public class StoreServiceImp implements StoreService{
         if(ind==-1){
             throw new NoBookFoundException(bookName);
         }
-        return repository.getBook(ind);
+        return repository.findById(ind+1).get();
     }
 
     @Override
     public boolean findIfAvailable(int id){
-        List<Book> list = repository.getBooks();
+        List<Book> list = getBooks();
         int siz = list.size();
 
         for(int i=0;i<siz;i++){
@@ -71,18 +71,18 @@ public class StoreServiceImp implements StoreService{
             throw new UnableToCreateResourceException(book.getBookName(), book.getId());
         }
 
-        repository.addBook(book);
+        repository.save(book);
     }
 
-    @Override
-    public void updateBook(String bookName, Book book){
-        // TODO Auto-generated method stub
-        int ind = getIndexByBookName(bookName);
-        if(ind==-1){
-            throw new UnableToUpdateResourceException(bookName);
-        }
-        repository.setBook(ind, book);
-    }
+    // @Override
+    // public void updateBook(String bookName, Book book){
+    //     // TODO Auto-generated method stub
+    //     int ind = getIndexByBookName(bookName);
+    //     if(ind==-1){
+    //         throw new UnableToUpdateResourceException(bookName);
+    //     }
+    //     repository.setBook(ind, book);
+    // }
 
     @Override
     public void deleteBook(String bookName){
@@ -91,7 +91,7 @@ public class StoreServiceImp implements StoreService{
         if(ind==-1){
             throw new UnableToDeleteResourceException(bookName);
         }
-        repository.deleteBook(getBook(bookName));
+        repository.delete(getBook(bookName));
     }
 
 

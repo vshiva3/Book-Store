@@ -8,7 +8,7 @@ public interface StoreService {
     int getIndexByBookName(String bookName);
     Book getBook(String bookName);
     void addBook(Book book);
-    void updateBook(String bookName, Book book);
+    // void updateBook(String bookName, Book book);
     void deleteBook(String bookName);
     List<Book> getBooks();
     boolean findIfAvailable(int id);

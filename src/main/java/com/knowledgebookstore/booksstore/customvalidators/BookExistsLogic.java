@@ -12,8 +12,14 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class BookExistsLogic implements ConstraintValidator<CheckIfBookExists, String>{
 
-    private final StoreService storeService;
+    @Autowired
+    private StoreService storeService;
 
+
+    public BookExistsLogic() {
+    }
+
+    
     public BookExistsLogic(StoreService storeService) {
         this.storeService = storeService;
     }
